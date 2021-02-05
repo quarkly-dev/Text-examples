@@ -28,7 +28,7 @@ A table:
 | - | - |
 
 
-## Markdown Syntax
+# Markdown Syntax
 
 To serve as an example page when styling markdown based Docusaurus sites.
 

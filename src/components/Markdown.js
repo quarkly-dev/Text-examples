@@ -1,9 +1,19 @@
 import React from 'react';
 import atomize from "@quarkly/atomize";
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const gfm = require('remark-gfm');
 
+const renderers = {
+	code: ({
+		language,
+		value
+	}) => {
+		return <SyntaxHighlighter style={dark} language={language} children={value} />;
+	}
+};
 const markdown = `
 A paragraph with *emphasis* and **strong importance**.
 
@@ -102,11 +112,7 @@ Reference-style: ![alt text][logo]
 
 Images from any folder can be used by providing path to file. Path should be relative to markdown file.
 
-![img](../static/img/logo.svg)
-
----
-
-
+![img](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
 
 ---
 
@@ -139,17 +145,32 @@ Quote break.
 
 ---
 
-## Inline HTML
+## Code
 
-<dl>
-  <dt>Definition list</dt>
-  <dd>Is something people use sometimes.</dd>
+~~~javascript
+var s = 'JavaScript syntax highlighting';
+alert(s);
+~~~
 
-  <dt>Markdown in HTML</dt>
-  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
-</dl>
+~~~python
+s = "Python syntax highlighting"
+print(s)
+~~~
 
----
+~~~
+No language indicated, so no syntax highlighting.
+But let's throw in a <b>tag</b>.
+~~~
+
+~~~js {2}
+function highlightMe() {
+  console.log('This line can be highlighted!');
+}
+~~~
+
+~~~js
+console.log('It works!')
+~~~
 
 ## Line Breaks
 
@@ -159,45 +180,12 @@ This line is separated from the one above by two newlines, so it will be a _sepa
 
 This line is also a separate paragraph, but... This line is only separated by a single newline, so it's a separate line in the _same paragraph_.
 
----
-
-## Admonitions
-
-:::note
-
-This is a note
-
-:::
-
-:::tip
-
-This is a tip
-
-:::
-
-:::important
-
-This is important
-
-:::
-
-:::caution
-
-This is a caution
-
-:::
-
-:::warning
-
-This is a warning
-
-:::
 
 
 `;
 
 const Markdown = props => <div {...props}>
-	<ReactMarkdown plugins={[gfm]} children={markdown} />
+	<ReactMarkdown renderers={renderers} plugins={[gfm]} children={markdown} />
 </div>;
 
 export default atomize(Markdown)({

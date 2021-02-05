@@ -2,7 +2,6 @@ import React from 'react';
 import atomize from "@quarkly/atomize";
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism/prism.js';
 
 const gfm = require('remark-gfm');
 
@@ -11,7 +10,7 @@ const renderers = {
 		language,
 		value
 	}) => {
-		return <SyntaxHighlighter style={dark} language={language} children={value} />;
+		return <SyntaxHighlighter language={language} children={value} />;
 	}
 };
 const markdown = `
